@@ -30,6 +30,7 @@
       justify-content: center;
       align-items: center;
       background: var(--bg-color);
+      /* Imagem de fundo (ajuste extensão se for .png) */
       background-image: url("img/bg.jpg");
       background-repeat: no-repeat;
       background-size: cover;
@@ -86,7 +87,7 @@
 
     .title {
       font-size: 1.5rem;
-      margin: 0 0 4px;
+      margin: 0;
       text-align: center;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -95,21 +96,9 @@
 
     .subtitle {
       font-size: 0.9rem;
-      margin: 0 0 16px;
+      margin: 6px 0 16px;  /* margem pequena logo depois do título */
       text-align: center;
       color: #a5c9a2;
-    }
-
-    .divider {
-      width: 60%;
-      height: 1px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(91, 138, 90, 0.8),
-        transparent
-      );
-      margin: 0 auto 14px;
     }
 
     .links {
@@ -201,15 +190,13 @@
 
   <div class="wrapper">
     <div class="card">
-      <!-- Banner (opcional) -->
+      <!-- Banner (ajustado para banner.png) -->
       <div id="banner" class="banner hidden">
-        <img src="img/banner.jpg" alt="Banner">
+        <img src="img/banner.png" alt="Banner">
       </div>
 
       <h1 id="page-title" class="title">Carregando...</h1>
       <p id="page-subtitle" class="subtitle hidden"></p>
-
-      <div class="divider"></div>
 
       <div id="links-container" class="links">
         <!-- Links via JavaScript -->
@@ -258,7 +245,7 @@
         footerEl.classList.remove('hidden');
       }
 
-      // Tema via JSON (sobrescreve o padrão do CSS se quiser)
+      // Tema via JSON (opcional)
       const root = document.documentElement;
       if (data.theme) {
         if (data.theme.bgColor) root.style.setProperty('--bg-color', data.theme.bgColor);
@@ -268,11 +255,12 @@
         if (data.theme.accentHover) root.style.setProperty('--accent-hover', data.theme.accentHover);
       }
 
-      // Mostrar ou esconder banner pelo JSON
+      // Banner: mostra por padrão, a menos que showBanner = false no JSON
+      const bannerEl = document.getElementById('banner');
       if (data.showBanner === false) {
-        document.getElementById('banner').classList.add('hidden');
+        bannerEl.classList.add('hidden');
       } else {
-        document.getElementById('banner').classList.remove('hidden');
+        bannerEl.classList.remove('hidden');
       }
     }
 
