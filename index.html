@@ -3,40 +3,216 @@
 <head>
   <meta charset="UTF-8">
   <title>Meus Links</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root {
+      --bg-color: #f5f5f5;
+      --card-bg: #ffffff;
+      --text-color: #111111;
+      --accent-color: #24292e;
+      --accent-hover: #444c56;
+      --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    Roboto, Helvetica, Arial, sans-serif;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      background: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 480px;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 24px 20px 20px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+    }
+
+    .title {
+      font-size: 1.6rem;
+      margin: 0 0 4px;
       text-align: center;
-      padding: 40px;
     }
-    h1 { margin-bottom: 20px; }
+
+    .subtitle {
+      font-size: 0.95rem;
+      margin: 0 0 20px;
+      text-align: center;
+      color: #555;
+    }
+
     .links {
-      max-width: 400px;
-      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
     }
-    a {
-      display: block;
-      padding: 12px 16px;
-      margin: 8px 0;
-      background: #24292e;
-      color: #fff;
+
+    .link-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 999px;
       text-decoration: none;
-      border-radius: 6px;
+      background: var(--accent-color);
+      color: #ffffff;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: background 0.15s ease, transform 0.1s ease,
+                  box-shadow 0.1s ease;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+      text-align: center;
     }
-    a:hover {
-      background: #444c56;
+
+    .link-item:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.35);
+    }
+
+    .link-item:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.2);
+    }
+
+    .link-description {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 400;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    .footer {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #777;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <h1>Meus Links</h1>
-  <div class="links">
-    <a href="https://github.com/SEU_USUARIO" target="_blank">Meu GitHub</a>
-    <a href="https://twitter.com/SEU_USUARIO" target="_blank">Twitter</a>
-    <a href="https://www.linkedin.com/in/SEU_USUARIO" target="_blank">LinkedIn</a>
-    <a href="https://meusite.com" target="_blank">Meu Site</a>
-    <!-- Adicione quantos links quiser -->
+  <div class="wrapper">
+    <div class="card">
+      <h1 id="page-title" class="title">Carregando...</h1>
+      <p id="page-subtitle" class="subtitle hidden"></p>
+
+      <div id="links-container" class="links">
+        <!-- Links serão inseridos via JavaScript -->
+      </div>
+
+      <div id="page-footer" class="footer hidden"></div>
+    </div>
   </div>
+
+  <script>
+    async function carregarConfiguracao() {
+      try {
+        const resp = await fetch('links.json', { cache: 'no-store' });
+        if (!resp.ok) {
+          throw new Error('Erro ao carregar links.json: ' + resp.status);
+        }
+
+        const data = await resp.json();
+
+        aplicarConfiguracaoBasica(data);
+        montarLinks(data.links || []);
+      } catch (err) {
+        console.error(err);
+        document.getElementById('page-title').textContent =
+          'Erro ao carregar configuração';
+      }
+    }
+
+    function aplicarConfiguracaoBasica(data) {
+      // Título
+      const titleEl = document.getElementById('page-title');
+      if (data.title) {
+        titleEl.textContent = data.title;
+        document.title = data.title;
+      } else {
+        titleEl.textContent = 'Meus Links';
+      }
+
+      // Subtítulo
+      const subtitleEl = document.getElementById('page-subtitle');
+      if (data.subtitle) {
+        subtitleEl.textContent = data.subtitle;
+        subtitleEl.classList.remove('hidden');
+      }
+
+      // Rodapé
+      const footerEl = document.getElementById('page-footer');
+      if (data.footer) {
+        footerEl.textContent = data.footer;
+        footerEl.classList.remove('hidden');
+      }
+
+      // Cores (opcionais no JSON)
+      const root = document.documentElement;
+      if (data.theme) {
+        if (data.theme.bgColor) root.style.setProperty('--bg-color', data.theme.bgColor);
+        if (data.theme.cardBg) root.style.setProperty('--card-bg', data.theme.cardBg);
+        if (data.theme.textColor) root.style.setProperty('--text-color', data.theme.textColor);
+        if (data.theme.accentColor) root.style.setProperty('--accent-color', data.theme.accentColor);
+        if (data.theme.accentHover) root.style.setProperty('--accent-hover', data.theme.accentHover);
+      }
+    }
+
+    function montarLinks(links) {
+      const container = document.getElementById('links-container');
+      container.innerHTML = '';
+
+      if (!Array.isArray(links) || links.length === 0) {
+        const msg = document.createElement('p');
+        msg.textContent = 'Nenhum link configurado.';
+        msg.style.textAlign = 'center';
+        msg.style.color = '#666';
+        msg.style.fontSize = '0.9rem';
+        container.appendChild(msg);
+        return;
+      }
+
+      links.forEach(link => {
+        if (!link.url || !link.label) return; // pula entradas incompletas
+
+        const a = document.createElement('a');
+        a.className = 'link-item';
+        a.href = link.url;
+        a.textContent = link.label;
+        a.target = link.target || '_blank';
+        a.rel = 'noopener noreferrer';
+
+        if (link.description) {
+          const span = document.createElement('span');
+          span.className = 'link-description';
+          span.textContent = link.description;
+          a.appendChild(document.createElement('br'));
+          a.appendChild(span);
+        }
+
+        container.appendChild(a);
+      });
+    }
+
+    carregarConfiguracao();
+  </script>
 </body>
 </html>
