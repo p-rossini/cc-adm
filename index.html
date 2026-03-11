@@ -6,51 +6,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
-      --bg-color: #f5f5f5;
-      --card-bg: #ffffff;
-      --text-color: #111111;
-      --accent-color: #24292e;
-      --accent-hover: #444c56;
+      --bg-color: #050807;          /* fundo base (escuro) */
+      --card-bg: rgba(7, 14, 10, 0.95);
+      --text-color: #e9f5e1;
+      --accent-color: #2f5233;     /* verde militar */
+      --accent-hover: #3c6941;
+      --border-color: #5b8a5a;
       --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
                     Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
       margin: 0;
       padding: 0;
       font-family: var(--font-family);
-      background: var(--bg-color);
       color: var(--text-color);
-      display: flex;
       min-height: 100vh;
+      display: flex;
       justify-content: center;
       align-items: center;
+      background: var(--bg-color);
+      background-image: url("img/bg.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      backdrop-filter: blur(2px);
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(15, 30, 20, 0.75), rgba(0, 0, 0, 0.95));
+      z-index: -1;
     }
 
     .wrapper {
       width: 100%;
-      max-width: 480px;
-      padding: 24px;
+      max-width: 520px;
+      padding: 20px;
     }
 
     .card {
       background: var(--card-bg);
       border-radius: 12px;
-      padding: 24px 20px 20px;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(91, 138, 90, 0.5);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      border: 1px solid rgba(200, 255, 200, 0.03);
+      pointer-events: none;
+    }
+
+    .banner {
+      width: 100%;
+      max-height: 160px;
+      overflow: hidden;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(91, 138, 90, 0.6);
+    }
+
+    .banner img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
     }
 
     .title {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       margin: 0 0 4px;
       text-align: center;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #d6f5c9;
     }
 
     .subtitle {
-      font-size: 0.95rem;
-      margin: 0 0 20px;
+      font-size: 0.9rem;
+      margin: 0 0 16px;
       text-align: center;
-      color: #555;
+      color: #a5c9a2;
+    }
+
+    .divider {
+      width: 60%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(91, 138, 90, 0.8),
+        transparent
+      );
+      margin: 0 auto 14px;
     }
 
     .links {
@@ -61,61 +120,99 @@
     }
 
     .link-item {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       padding: 10px 14px;
-      border-radius: 999px;
+      border-radius: 8px;
       text-decoration: none;
-      background: var(--accent-color);
-      color: #ffffff;
-      font-weight: 500;
-      font-size: 0.95rem;
+      background: radial-gradient(circle at top left, #2f5233, #111a13);
+      color: #f0fff0;
+      border: 1px solid rgba(91, 138, 90, 0.6);
       transition: background 0.15s ease, transform 0.1s ease,
-                  box-shadow 0.1s ease;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
-      text-align: center;
+                  box-shadow 0.15s ease, border-color 0.15s ease;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+
+    .link-item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 1px solid rgba(220, 255, 220, 0.06);
+      pointer-events: none;
+    }
+
+    .link-label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .link-description {
+      font-size: 0.78rem;
+      margin-top: 3px;
+      color: #d1e5cf;
+      opacity: 0.9;
     }
 
     .link-item:hover {
-      background: var(--accent-hover);
+      background: radial-gradient(circle at top left, #3c6941, #151f16);
       transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.35);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.9);
+      border-color: rgba(180, 230, 180, 0.9);
     }
 
     .link-item:active {
       transform: translateY(0);
-      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.2);
-    }
-
-    .link-description {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 400;
-      opacity: 0.8;
-      margin-top: 2px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
     }
 
     .footer {
-      margin-top: 14px;
+      margin-top: 12px;
       text-align: center;
       font-size: 0.75rem;
-      color: #777;
+      color: #849d82;
     }
 
     .hidden {
       display: none;
     }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 14px 12px 12px;
+      }
+
+      .title {
+        font-size: 1.3rem;
+      }
+
+      .banner {
+        margin-bottom: 10px;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="overlay"></div>
+
   <div class="wrapper">
     <div class="card">
+      <!-- Banner (opcional) -->
+      <div id="banner" class="banner hidden">
+        <img src="img/banner.jpg" alt="Banner">
+      </div>
+
       <h1 id="page-title" class="title">Carregando...</h1>
       <p id="page-subtitle" class="subtitle hidden"></p>
 
+      <div class="divider"></div>
+
       <div id="links-container" class="links">
-        <!-- Links serão inseridos via JavaScript -->
+        <!-- Links via JavaScript -->
       </div>
 
       <div id="page-footer" class="footer hidden"></div>
@@ -131,7 +228,6 @@
         }
 
         const data = await resp.json();
-
         aplicarConfiguracaoBasica(data);
         montarLinks(data.links || []);
       } catch (err) {
@@ -142,7 +238,6 @@
     }
 
     function aplicarConfiguracaoBasica(data) {
-      // Título
       const titleEl = document.getElementById('page-title');
       if (data.title) {
         titleEl.textContent = data.title;
@@ -151,21 +246,19 @@
         titleEl.textContent = 'Meus Links';
       }
 
-      // Subtítulo
       const subtitleEl = document.getElementById('page-subtitle');
       if (data.subtitle) {
         subtitleEl.textContent = data.subtitle;
         subtitleEl.classList.remove('hidden');
       }
 
-      // Rodapé
       const footerEl = document.getElementById('page-footer');
       if (data.footer) {
         footerEl.textContent = data.footer;
         footerEl.classList.remove('hidden');
       }
 
-      // Cores (opcionais no JSON)
+      // Tema via JSON (sobrescreve o padrão do CSS se quiser)
       const root = document.documentElement;
       if (data.theme) {
         if (data.theme.bgColor) root.style.setProperty('--bg-color', data.theme.bgColor);
@@ -173,6 +266,13 @@
         if (data.theme.textColor) root.style.setProperty('--text-color', data.theme.textColor);
         if (data.theme.accentColor) root.style.setProperty('--accent-color', data.theme.accentColor);
         if (data.theme.accentHover) root.style.setProperty('--accent-hover', data.theme.accentHover);
+      }
+
+      // Mostrar ou esconder banner pelo JSON
+      if (data.showBanner === false) {
+        document.getElementById('banner').classList.add('hidden');
+      } else {
+        document.getElementById('banner').classList.remove('hidden');
       }
     }
 
@@ -184,28 +284,31 @@
         const msg = document.createElement('p');
         msg.textContent = 'Nenhum link configurado.';
         msg.style.textAlign = 'center';
-        msg.style.color = '#666';
+        msg.style.color = '#a5c9a2';
         msg.style.fontSize = '0.9rem';
         container.appendChild(msg);
         return;
       }
 
       links.forEach(link => {
-        if (!link.url || !link.label) return; // pula entradas incompletas
+        if (!link.url || !link.label) return;
 
         const a = document.createElement('a');
         a.className = 'link-item';
         a.href = link.url;
-        a.textContent = link.label;
         a.target = link.target || '_blank';
         a.rel = 'noopener noreferrer';
 
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'link-label';
+        labelSpan.textContent = link.label;
+        a.appendChild(labelSpan);
+
         if (link.description) {
-          const span = document.createElement('span');
-          span.className = 'link-description';
-          span.textContent = link.description;
-          a.appendChild(document.createElement('br'));
-          a.appendChild(span);
+          const descSpan = document.createElement('span');
+          descSpan.className = 'link-description';
+          descSpan.textContent = link.description;
+          a.appendChild(descSpan);
         }
 
         container.appendChild(a);
