@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>Meus Links</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- TODO O CSS ESTÁ AQUI DENTRO -->
   <style>
     :root {
       --bg-color: #050807;          /* fundo base (escuro) */
@@ -16,9 +18,7 @@
                     Roboto, Helvetica, Arial, sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -30,7 +30,7 @@
       justify-content: center;
       align-items: center;
       background: var(--bg-color);
-      /* Imagem de fundo (ajuste extensão se for .png) */
+      /* se sua imagem de fundo for PNG, troque para bg.png */
       background-image: url("img/bg.jpg");
       background-repeat: no-repeat;
       background-size: cover;
@@ -96,7 +96,7 @@
 
     .subtitle {
       font-size: 0.9rem;
-      margin: 6px 0 16px;  /* margem pequena logo depois do título */
+      margin: 6px 0 16px;  /* subtítulo logo abaixo do título */
       text-align: center;
       color: #a5c9a2;
     }
@@ -166,22 +166,12 @@
       color: #849d82;
     }
 
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
 
     @media (max-width: 480px) {
-      .card {
-        padding: 14px 12px 12px;
-      }
-
-      .title {
-        font-size: 1.3rem;
-      }
-
-      .banner {
-        margin-bottom: 10px;
-      }
+      .card { padding: 14px 12px 12px; }
+      .title { font-size: 1.3rem; }
+      .banner { margin-bottom: 10px; }
     }
   </style>
 </head>
@@ -190,7 +180,7 @@
 
   <div class="wrapper">
     <div class="card">
-      <!-- Banner (ajustado para banner.png) -->
+      <!-- Banner: troca banner.png se seu arquivo tiver outro nome -->
       <div id="banner" class="banner hidden">
         <img src="img/banner.png" alt="Banner">
       </div>
@@ -198,9 +188,7 @@
       <h1 id="page-title" class="title">Carregando...</h1>
       <p id="page-subtitle" class="subtitle hidden"></p>
 
-      <div id="links-container" class="links">
-        <!-- Links via JavaScript -->
-      </div>
+      <div id="links-container" class="links"></div>
 
       <div id="page-footer" class="footer hidden"></div>
     </div>
