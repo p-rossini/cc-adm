@@ -1,33 +1,41 @@
 {
-  "title": "Meus Links",
-  "subtitle": "Todos os meus links importantes em um só lugar.",
-  "footer": "Feito com GitHub Pages",
+  "title": "CENTRO DE CONTROLE",
+  "subtitle": "Painel de acesso rápido aos recursos operacionais.",
+  "footer": "Acesso restrito • Uso interno",
+
+  "showBanner": true,
 
   "theme": {
-    "bgColor": "#f5f5f5",
-    "cardBg": "#ffffff",
-    "textColor": "#111111",
-    "accentColor": "#24292e",
-    "accentHover": "#444c56"
+    "bgColor": "#050807",
+    "cardBg": "rgba(7, 14, 10, 0.95)",
+    "textColor": "#e9f5e1",
+    "accentColor": "#2f5233",
+    "accentHover": "#3c6941"
   },
 
   "links": [
     {
-      "label": "GitHub",
-      "url": "https://github.com/p-rossini",
-      "description": "Meus repositórios e projetos públicos.",
+      "label": "Painel Administrativo",
+      "url": "https://seusistema.com/admin",
+      "description": "Acesso ao sistema administrativo principal.",
       "target": "_blank"
     },
     {
-      "label": "LinkedIn",
-      "url": "https://www.linkedin.com/in/SEU_USUARIO",
-      "description": "Minha trajetória profissional.",
+      "label": "Relatórios Operacionais",
+      "url": "https://seusistema.com/relatorios",
+      "description": "Consultas, estatísticas e dados de missão.",
       "target": "_blank"
     },
     {
-      "label": "DokPloy*",
-      "url": "https://workflows.pedrohenrique.cloud",
-      "description": "Fluxos de trabalho",
+      "label": "Documentação Interna",
+      "url": "https://seusistema.com/docs",
+      "description": "Procedimentos, normas e manuais.",
+      "target": "_blank"
+    },
+    {
+      "label": "Canal de Suporte",
+      "url": "https://seusistema.com/suporte",
+      "description": "Contato direto com a equipe técnica.",
       "target": "_blank"
     }
   ]
